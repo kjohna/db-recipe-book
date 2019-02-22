@@ -11,7 +11,7 @@ module.exports = {
   addDish,
   getDish,
   getRecipes,
-  // addRecipe
+  addRecipe
 }
 
 async function getDishes() {
@@ -62,5 +62,22 @@ async function addDish(dishData) {
     }
   } else {
     throw "Please provide dish name."
+  }
+}
+
+async function addRecipe(recipeData) {
+  if (recipeData.name 
+    && recipeData.dish_id 
+    && recipeData.directions) {
+    try {
+      const [id] = await db('recipes')
+        .insert(recipeData);
+      return id;
+    } catch (error) {
+      const msg = errors[error.errno];
+      throw msg;
+    }
+  } else {
+    throw "Please provide complete recipe data."
   }
 }

@@ -34,8 +34,17 @@ server.get('/api/dishes/:id', async (req, res) => {
 
 server.post('/api/dishes', async (req, res) => {
   try {
-    const recipes = await Recipes.addDish(req.body);
-    res.status(200).json({ relatedRecipes: recipes });
+    const id = await Recipes.addDish(req.body);
+    res.status(200).json({ id });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+server.post('/api/recipes', async (req, res) => {
+  try {
+    const id = await Recipes.addRecipe(req.body);
+    res.status(200).json({ id });
   } catch (error) {
     res.status(500).json(error);
   }
