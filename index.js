@@ -15,8 +15,16 @@ server.get('', (req, res) => {
 server.get('/api/dishes', async (req, res) => {
   try {
     const dishes = await Recipes.getDishes();
-    console.log(dishes);
     res.status(200).json(dishes);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+server.post('/api/dishes', async (req, res) => {
+  try {
+    const dishId = await Recipes.addDish(req.body);
+    res.status(200).json({ newDishId: dishId });
   } catch (error) {
     res.status(500).json(error);
   }
