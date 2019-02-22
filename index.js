@@ -21,10 +21,21 @@ server.get('/api/dishes', async (req, res) => {
   }
 });
 
+server.get('/api/dishes/:id', async (req, res) => {
+  const dishId = req.params.id;
+  try {
+    const dish = await Recipes.getDish(dishId);
+    const recipes = await Recipes.getRecipes(dishId);
+    res.status(200).json({ dish: dish, recipes: recipes });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+}); 
+
 server.post('/api/dishes', async (req, res) => {
   try {
-    const dishId = await Recipes.addDish(req.body);
-    res.status(200).json({ newDishId: dishId });
+    const recipes = await Recipes.addDish(req.body);
+    res.status(200).json({ relatedRecipes: recipes });
   } catch (error) {
     res.status(500).json(error);
   }

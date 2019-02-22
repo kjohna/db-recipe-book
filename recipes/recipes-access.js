@@ -9,18 +9,41 @@ const errors = {
 module.exports = {
   getDishes,
   addDish,
-  // getDish,
-  // getRecipes,
+  getDish,
+  getRecipes,
   // addRecipe
 }
 
 async function getDishes() {
   try {
-    let dishes = await db('dishes');
+    const dishes = await db('dishes');
     return dishes;
   }
   catch (error) {
-    return error;
+    throw error;
+  }
+}
+
+async function getDish(id) {
+  try {
+    const dish = await db('dishes')
+      .where({ id })
+      .first();
+    console.log(dish);
+    return dish;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getRecipes(dishId) {
+  try {
+    const recipes = await db('recipes')
+      .where({ dish_id: dishId });
+    console.log(recipes);
+    return recipes;
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -38,6 +61,6 @@ async function addDish(dishData) {
       // return new Error(msg); 
     }
   } else {
-    return ("Dish mush have a name.")
+    throw "Please provide dish name."
   }
 }
